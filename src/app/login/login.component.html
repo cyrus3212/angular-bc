@@ -1,0 +1,28 @@
+<div class="login-wrapper center-content">
+    <div id="root">
+        <form [formGroup]="loginForm" novalidate (ngSubmit)="onSave(loginForm.value, loginForm.valid)">
+            <div class="login">
+                <div class="center-horizontal">
+                    <img class="login-logo-center" src="../assets/images/img_beep_logo.png" />
+                </div>
+                <div class="login-input-wrapper">
+                    <div class="login-input-label">USERNAME</div>
+                    <div>
+                        <input [(ngModel)]="loginCreds.username" formControlName="username" class="textfield" type="text" placeholder="USERNAME" />
+                    </div>
+                </div>
+                <div class="login-input-wrapper">
+                    <div class="login-input-label">PASSWORD</div>
+                    <div>
+                        <input [(ngModel)]="loginCreds.password" formControlName="password" class="textfield" type="password" placeholder="PASSWORD" />
+                    </div>
+                </div>
+                <div class="login-checkbox-wrapper">
+                    <input class="login-checkbox" id="keepMeSignedIn" type="checkbox" />
+                    <label class="login-checkbox-label" for="keepMeSignedIn"><span></span>Keep me signed in</label>
+                </div>
+                <input class="button" type="submit" value="SIGN IN" />
+            </div>
+        </form>
+    </div>
+</div>

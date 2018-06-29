@@ -1,0 +1,30 @@
+<!-- <md-toolbar> -->
+<h2 md-dialog-title>{{title}}</h2>
+<!-- </md-toolbar> -->
+<md-dialog-content>
+  <div class="wrapper margin-bottom-x2">
+    <!-- progress view -->
+    <div *ngIf="!processComplete">
+      <div>
+        <h4>{{status}}</h4>
+      </div>
+      <div>
+        <md-progress-bar
+          [mode]="mode"
+          color="primary"
+          [value]="value">
+        </md-progress-bar>
+      </div>
+    </div>
+    <!-- end progress view -->
+    <div *ngIf="processComplete" class="center">
+      <div class="green"><i class="fa fa-check-circle fa-5x"></i></div>
+      <div><h2>Upload Successful</h2></div>
+      <div><h4>You have successfully imported a list</h4></div>
+      <button type="button" class="button" (click)="onCloseDialogClick()">OK</button>
+    </div>
+  </div>
+</md-dialog-content>
+<md-dialog-actions class="dialog-actions" *ngIf="!processComplete">
+    <button md-button md-dialog-close>Cancel</button>
+</md-dialog-actions>

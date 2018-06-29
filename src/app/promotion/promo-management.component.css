@@ -1,0 +1,38 @@
+.select-200 {
+    width: 200px;
+}
+
+.button.add {
+    background: #35A7CF url('../../assets/images/ic_add.png') no-repeat left;
+    padding-left: 40px;
+}
+.button.add:active, .button.add.focus {
+    background: #25819E url('../../assets/images/ic_add.png') no-repeat left;
+}
+
+.table-header-promo {
+    flex: 1; 
+    height: 50px;
+    color: #374655;
+    font-size: 0.875em;
+
+    display: -webkit-flex;
+    display: flex;
+    align-items: center;
+}
+
+.table-header-promo.min {
+    flex: 0.5;
+}
+
+.table-header-promo.large {
+    flex: 1.7;
+}
+
+.table-header-promo i {
+    margin-left: 8px;
+}
+
+.table-header-promo:hover {
+    cursor: pointer;
+}

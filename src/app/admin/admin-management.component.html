@@ -1,0 +1,75 @@
+<div>
+    <!-- class="debug-border" -->
+    <div class="content title margin-bottom">User Assignment</div>
+    <div class="content sub-title margin-bottom-x2">Create, edit and delete user</div>
+    <div class="separator"></div>
+    <div class="margin-bottom-x5 flex center-content">
+        <div class="grow">
+            <input class="button add ds" type="submit" value="NEW USER" (click)="onCreateNewUser()" />
+        </div>
+        <div class="margin-right-x2">Search</div>
+        <div>
+            <input class="textfield searchfield" type="search" placeholder="Search keyword..." />
+        </div>
+    </div>
+    <div class="flex margin-bottom-x4">
+        <div class="table-item-action">
+          <div class="flex">
+            <a class="flex margin-right">
+                <div><i class="fa fa-check fa-lg"></i></div>
+                <div class="padding-sides">Active</div>
+            </a>
+            <a class="flex margin-right">
+                <div><i class="fa fa-close fa-lg"></i></div>
+                <div class="padding-sides">Inactive</div>
+            </a>
+            <a class="flex margin-right">
+                <div><i class="fa fa-trash fa-lg"></i></div>
+                <div class="padding-sides">Delete</div>
+            </a>
+          </div>
+        </div>
+    </div>
+    <div>
+        <div class="table">
+            <div class="table-header flex center-content">
+                <div class="margin-right-x4"><input type="checkbox" (click)="onSelectAll()" /></div>
+                <div class="table-wrap flex">
+                    <div class="table-header-promo min">ID<i [class.fa-sort-amount-desc]="!isCreatedDateSortASC" [class.fa-sort-amount-asc]="isCreatedDateSortASC" class="fa fa-sm"></i></div>
+                    <div class="table-header-promo">FIRST NAME<i [class.fa-sort-amount-desc]="!isCreatedDateSortASC" [class.fa-sort-amount-asc]="isCreatedDateSortASC" class="fa fa-sm"></i></div>
+                    <div (click)="onPromoTypeFilterClick($event)" class="table-header-promo">LAST NAME<i class="fa fa-filter fa-sm"></i></div>
+                    <div (click)="onStartEndDateFilterClick($event)" class="table-header-promo">EMAIL ADDRESS<i class="fa fa-filter fa-sm"></i></div>
+                    <div (click)="onStatusFilterClick($event)" class="table-header-promo">ROLE<i class="fa fa-filter fa-sm"></i></div>
+                    <div class="table-header-promo min">STATUS</div>
+                </div>
+            </div>
+            <!-- table item start -->
+            <div *ngFor="let i of Arr(promoCount).fill(1); let x = index;" 
+                [class.alt]="x % 2 !== 0"
+                class="table-item flex center-content">
+                <div class=" margin-right-x4"><input type="checkbox" [checked]="selectAll" /></div>
+                <div class="table-wrap">
+                    <div class="item-label min">{{(x + 1)}}</div>
+                    <div class="item-label">Name {{(x + 1)}}</div>
+                    <div class="item-label">Last {{(x + 1)}}</div>
+                    <div class="item-label">email{{(x + 1)}}@mailer.com</div>
+                    <div class="item-label bold">admin</div>
+                    <div class="item-label min">
+                        <md-select placeholder="Status" floatPlaceholder="never" class="dialog match-parent">
+                            <md-option *ngFor="let statusType of statusTypes" [value]="statusType.value">
+                                {{ statusType.viewValue }}
+                            </md-option>
+                        </md-select>
+                    </div>
+                </div>
+            </div>
+            <!-- table item end -->
+        </div>
+    </div>
+    <div class="gravity-right margin-top-x5">
+        <md-paginator class="no-bg" [length]="100"
+              [pageSize]="10"
+              [pageSizeOptions]="[5, 10, 25, 100]">
+        </md-paginator>
+    </div>
+</div>

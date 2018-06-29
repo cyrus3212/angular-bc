@@ -1,0 +1,155 @@
+<!-- <md-toolbar> -->
+    <h2 md-dialog-title>{{title}}</h2>
+<!-- </md-toolbar> -->
+<md-dialog-content>
+    <div>
+      <div class="flex">
+        <div class="margin-right-x2">
+          <div class="margin-bottom-mn elem-label">Select Promo</div>
+          <div class="margin-bottom-x2">
+            <md-select placeholder="Select a Promo" floatPlaceholder="never" class="dialog" (change)="onSelectChange($event)">
+                <md-option *ngFor="let promoType of promoTypes" [value]="promoType.value">
+                    {{ promoType.viewValue }}
+                </md-option>
+            </md-select>
+          </div>
+        </div>
+        <div class="margin-right-x2">
+          <div class="margin-bottom-mn elem-label">Promo Type</div>
+          <div class="margin-bottom-x2"><input class="textfield dialogField" type="text" placeholder="Text" disabled value="{{selectedPromoType}}" /></div>
+        </div>
+        <div class="margin-right-x2">
+          <div class="margin-bottom-mn elem-label">Assignment Name</div>
+          <div class="margin-bottom-x2">
+            <md-select placeholder="Assignment Name" floatPlaceholder="never" class="dialog" (change)="onSelectChange($event)">
+                <md-option *ngFor="let assignmentName of assignmentNames" [value]="assignmentName.value">
+                    {{ assignmentName.viewValue }}
+                </md-option>
+            </md-select>
+          </div>
+        </div>
+      </div>
+      <!-- text and moving graphics only -->
+      <div *ngIf="selectedPromoType !== PROMO_CAROUSEL">
+        <div class="margin-right-x2">
+          <div class="margin-bottom-mn elem-label">Card Type</div>
+          <div class="margin-bottom-x2">
+            <md-select placeholder="Card Type" floatPlaceholder="never" class="dialog" (change)="onSelectChange($event)">
+                <md-option *ngFor="let cardtype of cardTypes" [value]="cardtype.value">
+                    {{ cardtype.viewValue }}
+                </md-option>
+            </md-select>
+          </div>
+        </div>
+      </div>
+      <!-- carousel only start -->
+      <div *ngIf="selectedPromoType === PROMO_CAROUSEL">
+        <div class="margin-bottom-mn elem-label">Sliders</div>
+        <!-- scheduler loop -->
+        <div class="flex" *ngFor="let i of Arr(sliderCount).fill(1); let x = index;">
+          <div class="center-content flex margin-right-x2">
+            <div class="number-item center-content margin-right-x2">{{(x + 1)}}</div>
+            <div>slider00{{(x + 1)}}.jpg</div>
+          </div>
+          <div class="margin-right-x2">
+            <div class="margin-bottom-mn elem-label">Slide Time Scheduler</div>
+            <div class="padding-sides-x2 rounded-border margin-bottom-x3">
+                <input class="input-datepicker" [mdDatepicker]="timePickerStart" disabled placeholder="MM/DD/YYYY">
+                <button [mdDatepickerToggle]="timePickerStart"></button>
+                <md-datepicker #timePickerStart></md-datepicker>
+            </div>
+          </div>
+          <div class="margin-right-x2">
+            <div class="margin-bottom-mn elem-label">&nbsp;</div>
+            <div class="padding-sides-x2 rounded-border margin-bottom-x3">
+                <input class="input-datepicker" [mdDatepicker]="timePickerEnd" disabled placeholder="MM/DD/YYYY">
+                <button [mdDatepickerToggle]="timePickerEnd"></button>
+                <md-datepicker #timePickerEnd></md-datepicker>
+            </div>
+          </div>
+        </div>
+        <!-- end scheduler loop -->
+      </div>
+      <!-- common -->
+      <div class="flex">
+        <div class="margin-right-x2">
+          <div class="margin-bottom-mn elem-label">Promo Schedule</div>
+          <div class="segmented-button flex">
+            <input type="radio" name="seg-1" value="Daily" id="seg-Daily" checked>
+            <label for="seg-Daily" class="first">Daily</label>
+            <input type="radio" name="seg-1" value="Weekly" id="seg-Weekly">
+            <label for="seg-Weekly">Weekly</label>
+            <input type="radio" name="seg-1" value="Monthly" id="seg-Monthly">
+            <label for="seg-Monthly" class="last center-content">Monthly</label>
+          </div>
+        </div>
+        <div class="margin-right-x2">
+          <div class="margin-bottom-mn elem-label">Date Started</div>
+          <div class="padding-sides-x2 rounded-border margin-bottom-x3">
+              <input class="input-datepicker" [mdDatepicker]="startDatePicker" disabled placeholder="MM/DD/YYYY">
+              <button [mdDatepickerToggle]="startDatePicker"></button>
+              <md-datepicker #startDatePicker></md-datepicker>
+          </div>
+        </div>
+        <div class="margin-right-x2">
+          <div class="margin-bottom-mn elem-label">Date Ended</div>
+          <div class="padding-sides-x2 rounded-border margin-bottom-x3">
+              <input class="input-datepicker" [mdDatepicker]="endDatePicker" disabled placeholder="MM/DD/YYYY">
+              <button [mdDatepickerToggle]="endDatePicker"></button>
+              <md-datepicker #endDatePicker></md-datepicker>
+          </div>
+        </div>
+      </div>
+      <div class="flex">
+        <div class="margin-right-x2">
+          <div class="margin-bottom-mn elem-label">Time Scheduler</div>
+          <div class="padding-sides-x2 rounded-border margin-bottom-x3">
+              <input class="input-datepicker" [mdDatepicker]="timePickerStart" disabled placeholder="MM/DD/YYYY">
+              <button [mdDatepickerToggle]="timePickerStart"></button>
+              <md-datepicker #timePickerStart></md-datepicker>
+          </div>
+        </div>
+        <div class="margin-right-x2">
+          <div class="margin-bottom-mn elem-label">&nbsp;</div>
+          <div class="padding-sides-x2 rounded-border margin-bottom-x3">
+              <input class="input-datepicker" [mdDatepicker]="timePickerEnd" disabled placeholder="MM/DD/YYYY">
+              <button [mdDatepickerToggle]="timePickerEnd"></button>
+              <md-datepicker #timePickerEnd></md-datepicker>
+          </div>
+        </div>
+        <div>
+          <div class="margin-bottom-mn elem-label">&nbsp;</div>
+          <div class="padding-sides-x2 margin-bottom-x3">
+            <a class="add-timer"><i class="fa fa-plus-circle fa-2x margin-right"></i></a>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="margin-bottom-mn elem-label">Merchant</div>
+        <div class="margin-bottom-x2">
+          <md-select placeholder="Merchant" floatPlaceholder="never" class="dialog" (change)="onSelectChange($event)">
+              <md-option *ngFor="let merchant of merchants" [value]="merchant.value">
+                  {{ merchant.viewValue }}
+              </md-option>
+          </md-select>
+        </div>
+      </div>
+      <div class="margin-bottom-x2">
+        <div class="flex">
+          <div class="margin-right-x2"><md-checkbox>w/ Branch</md-checkbox></div>
+          <div><md-checkbox>w/ Franchises</md-checkbox></div>
+        </div>
+      </div>
+      <div>
+        <div class="margin-bottom-mn elem-label">Branch/Franchisee</div>
+        <div class="margin-bottom-x2">
+          <button (click)="onBranchOrFranchiseeClick()" type="button" class="button light-green width-180 margin-right-x2">Select Branch/Franchisee</button>
+        </div>
+      </div>
+    </div>
+</md-dialog-content>
+<md-dialog-actions class="dialog-actions">
+    <button md-button md-dialog-close>Cancel</button>
+    <div class="margin-right"></div>
+    <button md-button (click)="onGeneratePromoPackageClick()" class="blue">Assign Promo</button>  
+</md-dialog-actions>

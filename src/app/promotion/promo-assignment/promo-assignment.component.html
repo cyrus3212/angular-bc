@@ -1,0 +1,124 @@
+<div>
+    <!-- class="debug-border" -->
+    <div class="content title margin-bottom">Promotion Assignment</div>
+    <div class="content sub-title margin-bottom-x2">Assigned, edit and delete promotions</div>
+    <div class="separator"></div>
+    <div class="margin-bottom-x5 flex center-content">
+        <div class="grow">
+            <input class="button add ds" type="submit" value="ASSIGN PROMO" (click)="onCreateNewPromo()" />
+        </div>
+        <div class="margin-right-x2">Search</div>
+        <div>
+            <input class="textfield searchfield" type="search" placeholder="Search keyword..." />
+        </div>
+    </div>
+    <div class="flex margin-bottom-x4">
+        <div class="table-item-action">
+          <div class="flex">
+            <a class="flex margin-right">
+                <div><i class="fa fa-pause-circle-o fa-lg"></i></div>
+                <div class="padding-sides">Cancel</div>
+            </a>
+            <a class="flex margin-right">
+                <div><i class="fa fa-stop-circle-o fa-lg"></i></div>
+                <div class="padding-sides">Stop</div>
+            </a>
+            <a class="flex margin-right">
+                <div><i class="fa fa-trash fa-lg"></i></div>
+                <div class="padding-sides">Delete</div>
+            </a>
+          </div>
+        </div>
+    </div>
+    <div>
+        <div class="table">
+            <div class="table-header flex center-content">
+                <div class="margin-right-x4"><input type="checkbox" (click)="onSelectAll()" /></div>
+                <div class="table-wrap flex">
+                    <div class="table-header-promo large">PROMO ASSIGNMENT NAME<i [class.fa-sort-amount-desc]="!isCreatedDateSortASC" [class.fa-sort-amount-asc]="isCreatedDateSortASC" class="fa fa-sm"></i></div>
+                    <div class="table-header-promo">ASSIGNMENT ID<i [class.fa-sort-amount-desc]="!isCreatedDateSortASC" [class.fa-sort-amount-asc]="isCreatedDateSortASC" class="fa fa-sm"></i></div>
+                    <div (click)="onPromoTypeFilterClick($event)" class="table-header-promo">PROMO TYPE<i class="fa fa-filter fa-sm"></i></div>
+                    <div (click)="onStartEndDateFilterClick($event)" class="table-header-promo">START/END DATE<i class="fa fa-filter fa-sm"></i></div>
+                    <div (click)="onStatusFilterClick($event)" class="table-header-promo">STATUS<i class="fa fa-filter fa-sm"></i></div>
+                    <div class="table-header-promo">ACTION</div>
+                </div>
+            </div>
+            <!-- table item start -->
+            <div *ngFor="let i of Arr(promoCount).fill(1); let x = index;" 
+                [class.alt]="x % 2 !== 0"
+                class="table-item flex center-content">
+                <div class=" margin-right-x4"><input type="checkbox" [checked]="selectAll" /></div>
+                <div class="table-wrap">
+                    <div class="item-label large">
+                      <div>
+                        <div class="promo-item bold title">Additional P50 Credit</div>
+                        <div class="promo-item sub-title">purchase and win additional...</div>
+                      </div>
+                    </div>
+                    <div class="item-label">Promo-012345</div>
+                    <div class="item-label bold">Additional 50 Credit</div>
+                    <div class="item-label">
+                      <div>
+                        <div>Start <span class="promo-item bold date-start">JUNE 01, 2017</span></div>
+                        <div>End <span class="promo-item bold date-end">JUNE 30, 2017</span></div>
+                      </div>
+                    </div>
+                    <div class="item-label bold" [class.green]="x % 2 === 0" [class.gray]="x % 3 === 0" [class.orange]="x % 4 === 0" [class.pink]="x % 5 === 0">ACTIVE</div>
+                    <div class="item-label table-item-action">
+                        <a><i class="fa fa-pause-circle-o fa-lg"></i></a>
+                        <a (click)="onEditPromotion(x)"><i class="fa fa-stop-circle-o fa-lg"></i></a>
+                        <a><i class="fa fa-trash fa-lg"></i></a>
+                    </div>
+                </div>
+            </div>
+            <!-- table item end -->
+        </div>
+    </div>
+    <div class="gravity-right margin-top-x5">
+        <md-paginator class="no-bg" [length]="100"
+              [pageSize]="10"
+              [pageSizeOptions]="[5, 10, 25, 100]">
+        </md-paginator>
+    </div>
+</div>
+<!-- popup start date - end date filter -->
+<div #popUpStartEndDateFilter [hidden]="!showStartEndDateFIlterTooltip" class="tooltip tooltip-wrapper ds">
+    <div class="tooltip bold margin-bottom">Start Date</div>
+    <div class="padding-sides-x2 margin-bottom-x2">
+        <input class="tooltip" [mdDatepicker]="startDatePicker" disabled placeholder="MM/DD/YYYY">
+        <button [mdDatepickerToggle]="startDatePicker"></button>
+        <md-datepicker #startDatePicker></md-datepicker>
+    </div>
+    <div class="tooltip bold margin-bottom">End Date</div>
+    <div class="padding-sides-x2 margin-bottom-x3">
+        <input class="tooltip" [mdDatepicker]="endDatePicker" disabled placeholder="MM/DD/YYYY">
+        <button [mdDatepickerToggle]="endDatePicker"></button>
+        <md-datepicker #endDatePicker></md-datepicker>
+    </div>
+    <div class="gravity-right">
+        <button md-button (click)="showStartEndDateFIlterTooltip = !showStartEndDateFIlterTooltip">Apply</button>
+    </div>
+</div>
+<!-- status filter -->
+<div #popUpStatusFilter [hidden]="!showStatusTooltip" class="tooltip tooltip-wrapper ds">
+    <div class="margin-bottom-x2">
+        <div><md-checkbox>Active</md-checkbox></div>
+        <div><md-checkbox>Scheduled</md-checkbox></div>
+        <div><md-checkbox>Cancelled</md-checkbox></div>
+        <div><md-checkbox>Stopped</md-checkbox></div>
+    </div>
+    <div class="center-content">
+        <button md-button (click)="showStatusTooltip = !showStatusTooltip">Apply</button>
+    </div>
+</div>
+<!-- promo type -->
+<div #popUpPromoType [hidden]="!showPromoTypeTooltip" class="tooltip tooltip-wrapper ds">
+    <div class="margin-bottom-x2">
+        <div><md-checkbox>Text</md-checkbox></div>
+        <div><md-checkbox>Carousel</md-checkbox></div>
+        <div><md-checkbox>Moving Graphics</md-checkbox></div>
+    </div>
+    <div class="center-content">
+        <button md-button (click)="showPromoTypeTooltip = !showPromoTypeTooltip">Apply</button>
+    </div>
+</div>

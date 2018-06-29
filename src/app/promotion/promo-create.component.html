@@ -1,0 +1,350 @@
+<!-- <md-toolbar> -->
+<h2 md-dialog-title>{{title}}</h2>
+<!-- </md-toolbar> -->
+<form [formGroup]="promotionForm" novalidate (ngSubmit)="savePromotion(promotionForm)">
+    <md-dialog-content>
+        <div>
+            <div class="flex margin-bottom-x2">
+                <div class="margin-right-x3">
+                    <div class="margin-bottom-x2">
+                        <md-input-container>
+                            <input type="text" formControlName="title" [(ngModel)]="promo.title" [errorStateMatcher]="myErrorStateMatcher" name="title" placeholder="Promo Title" class="w250impt" mdInput required>
+                            <md-error>Promo Title is required</md-error>
+                        </md-input-container>
+                    </div>
+                    <div class="margin-bottom-x3">
+                        <md-select formControlName="type" [(ngModel)]="promo.type" (change)="onSelectChange($event)" name="type" placeholder="Promo Type" class="dialog">
+                            <md-option *ngFor="let promoType of promoTypes" [value]="promoType.id">
+                                {{ promoType.value }}
+                            </md-option>
+                        </md-select>
+                    </div>
+                    <div class="margin-bottom-x2">
+                        <md-select formControlName="status" [(ngModel)]="promo.status" name="status" placeholder="Status" class="dialog">
+                            <md-option *ngFor="let statusType of statusTypes" [value]="statusType.value">
+                                {{ statusType.viewValue }}
+                            </md-option>
+                        </md-select>
+                    </div>
+                </div>
+                <div class="margin-right-x3">
+                    <md-input-container>
+                        <div class="margin-bottom-x2">
+                            <textarea formControlName="description" [(ngModel)]="promo.description" name="description" placeholder="Promo Description" class="textarea-height" mdInput></textarea>
+                        </div>
+                    </md-input-container>
+                </div>
+                <div>
+                    <div class="margin-top-x2 margin-bottom">
+                        <md-select formControlName="reward_id" [(ngModel)]="promo.reward_id" name="reward_id" placeholder="Reward" class="dialog">
+                            <md-option *ngFor="let reward of rewards" [value]="reward.id">
+                                {{ reward.display_name }}
+                            </md-option>
+                        </md-select>
+                    </div>
+                    <div>
+                        <md-input-container>
+                            <input type="text" formControlName="credit_load_amount" [(ngModel)]="promo.credit_load_amount" name="credit_load_amount" placeholder="Credit Load Amount" class="w250impt" mdInput>
+                        </md-input-container>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="selectedPromoType !== PROMO_CAROUSEL">
+                <div class="separator"></div>
+                <div formArrayName="winning_parameters">
+                    <div *ngFor="let wpc of promotionForm.controls.winning_parameters.controls; let i = index">
+                        <div [formGroupName]="i">
+                            <div class="margin-bottom-x2 elem-title">WINNING PARAMETERS</div>
+                            <div class="flex">
+                                <div class="margin-right-x2">
+                                    <div>
+                                        <md-input-container>
+                                            <input type="text" formControlName="max_winning_per_hour" [(ngModel)]="promo.winning_parameters[i].max_winning_per_hour" name="max_winning_per_hour" class="w250impt" placeholder="Maximum number of winning per hour" mdInput>
+                                        </md-input-container>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex margin-bottom-x2">
+                                <div class="elem-label margin-right-x2 center-content">Account ranges</div>
+                                <div class="margin-right-x2 center-content">
+                                    <md-input-container>
+                                        <input type="text" formControlName="account_range_from" [(ngModel)]="promo.winning_parameters[i].account_range_from" name="account_range_from" class="w250impt" placeholder="From" mdInput>
+                                    </md-input-container>
+                                </div>
+                                <div class="center-content">
+                                    <md-input-container>
+                                        <input type="text" formControlName="account_range_to" [(ngModel)]="promo.winning_parameters[i].account_range_to" name="account_range_to" class="w250impt" placeholder="To" mdInput>
+                                    </md-input-container>
+                                </div>
+                            </div>
+                            <div class="flex margin-bottom-x2">
+                                <div class="margin-right-x2">
+                                    <div>
+                                        <md-input-container>
+                                            <input class="w250impt" mdInput required placeholder="Card Profile IDs" required [errorStateMatcher]="chanceStateMatcher">
+                                            <md-error>This field is required</md-error>
+                                        </md-input-container>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div>
+                                        <md-input-container>
+                                            <input type="text" formControlName="chance_factor" [(ngModel)]="promo.winning_parameters[i].chance_factor" [errorStateMatcher]="chanceStateMatcher" name="chance_factor" class="w250impt" placeholder="Chance factor" mdInput required>
+                                            <md-error>Value should be between 1 and 100</md-error>
+                                        </md-input-container>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="selectedPromoType === PROMO_CAROUSEL" class="margin-right-x3">
+                <div class="separator"></div>
+                <input type="file" name="slider_image" class="hiddenfile" #sliderImagefilePicker (change)="onSliderImageUpload($event)" />
+                <div formArrayName="carousel_images">
+                    <div class="margin-bottom-x2 elem-title">PROMO INTERFACE PARAMETER</div>
+                    <!-- add carousel images component -->
+                    <div class="preview-wrapper margin-bottom-x2">
+                        <div *ngFor="let ci of promotionForm.controls.carousel_images.controls; let i = index">
+                            <div [formGroupName]="i">
+                                <div formArrayName="winning_parameters">
+                                    <div *ngFor="let ci_wpc of promotionForm.controls.carousel_images.controls[i].controls.winning_parameters.controls; let j = index">
+                                        <div [formGroupName]="j" *ngIf="promo.carousel_images[i]">
+                                            <div class="number-item center-content margin-bottom-x2">
+                                                {{ i + 1 }}
+                                            </div>
+                                            <a href="javascript:void(0);" (click)="openSliderImagefilePicker(i)">
+                                                <span *ngIf="!isUploadingSliderImage[i]">
+                                                    <i class="fa fa fa-upload fa-small"></i>
+                                                </span>
+                                                <span *ngIf="isUploadingSliderImage[i]">
+                                                    <i class="fa fa-circle-o-notch fa-spin fa-small fa-fw margin-right"></i>
+                                                </span>
+                                            </a>
+                                            <strong>{{sliderImageFileName[i]}}</strong>
+                                            <div style="color: #4F5F6F;">
+                                                <div class="elem-title">WINNING PARAMETERS</div>
+                                                <div class="flex">
+                                                    <div class="margin-right-x2">
+                                                        <md-input-container>
+                                                            <input type="text" formControlName="max_winning_per_hour" [(ngModel)]="promo.carousel_images[i].winning_parameters[j].max_winning_per_hour" name="max_winning_per_hour" class="w250impt" placeholder="Maximum number of winning per hour" mdInput>
+                                                        </md-input-container>
+                                                    </div>
+                                                </div>
+                                                <div class="flex">
+                                                    <div class="flex">
+                                                        <div class="elem-label margin-right-x2 center-content">Account ranges</div>
+                                                        <div class="margin-right-x2 center-content">
+                                                            <md-input-container>
+                                                                <input type="text" formControlName="account_range_from" [(ngModel)]="promo.carousel_images[i].winning_parameters[j].account_range_from" name="account_range_from" class="w250impt" placeholder="From" mdInput>
+                                                            </md-input-container>
+                                                        </div>
+                                                        <div class="center-content">
+                                                            <md-input-container>
+                                                                <input type="text" formControlName="account_range_to" [(ngModel)]="promo.carousel_images[i].winning_parameters[j].account_range_to" name="account_range_to" class="w250impt" placeholder="To" mdInput>
+                                                            </md-input-container>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="flex">
+                                                    <div class="margin-right-x2">
+                                                        <div>
+                                                            <md-input-container>
+                                                                <input type="text" class="w250impt" mdInput placeholder="Card Profile IDs">
+                                                            </md-input-container>
+                                                        </div>
+                                                    </div>
+                                                    <div>
+                                                        <div>
+                                                            <md-input-container>
+                                                                <input type="text" formControlName="chance_factor" [(ngModel)]="promo.carousel_images[i].winning_parameters[j].chance_factor" class="w250impt" mdInput placeholder="Chance factor">
+                                                            </md-input-container>
+                                                        </div>
+                                                    </div>
+                                                    <div class="margin-right-x4">
+                                                        <div class="item-label table-item-action">
+                                                            <a href="javascript:void(0);" (click)="deleteCarousel(i)"><i class="fa fa-trash fa-lg"></i>Delete</a>
+                                                            <a href="javascript:void(0);" (click)="copyCarousel(i)"><i class="fa fa-copy fa-lg"></i>Copy</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="separator margin-bottom-x2"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="button" md-raised-button (click)="addCarouselImages()" class="margin-bottom-x4">Add Slider</button>
+                    </div>
+                </div>
+            </div>
+            <!-- add carousel images component end -->
+            <!-- carousel slider settings -->
+            <div>
+                <div *ngIf="selectedPromoType === PROMO_CAROUSEL" class="margin-bottom-x2">
+                    <div class="margin-bottom-mn elem-label">Slide Sequence</div>
+                    <div class="margin-bottom-x2">
+                        <md-select placeholder="Slide Sequence" formControlName="carousel_sequence" [(ngModel)]="promo.carousel_sequence" floatPlaceholder="never" class="dialog">
+                            <md-option *ngFor="let movePattern of movePatterns" [value]="movePattern.value">
+                                {{ movePattern.viewValue }}
+                            </md-option>
+                        </md-select>
+                    </div>
+                    <div class="margin-bottom-x2">
+                        <div class="flex">
+                            <div class="margin-right-x2">
+                                <div class="margin-bottom-mn elem-label">Slide Interval Speed</div>
+                                <div class="margin-bottom-x2">
+                                    <md-select placeholder="Interval Speed" formControlName="carousel_interval_speed" [(ngModel)]="promo.carousel_interval_speed" floatPlaceholder="never" class="dialog">
+                                        <md-option *ngFor="let timerOption of timerOptions" [value]="timerOption.value">
+                                            {{ timerOption.viewValue }}
+                                        </md-option>
+                                    </md-select>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="margin-bottom-mn elem-label">Slide Pause Speed</div>
+                                <div class="margin-bottom-x2">
+                                    <md-select placeholder="Pause Speed" formControlName="carousel_pause_speed" [(ngModel)]="promo.carousel_pause_speed" floatPlaceholder="never" class="dialog">
+                                        <md-option *ngFor="let timerOption of timerOptions" [value]="timerOption.value">
+                                            {{ timerOption.viewValue }}
+                                        </md-option>
+                                    </md-select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- carousel slider settings end -->
+            <div class="flex">
+                <div class="margin-right-x3">
+                    <div class="flex">
+                        <div class="margin-right-x2">
+                            <div class="margin-bottom-x2">
+                                <md-input-container>
+                                    <input class="w250impt" type="text" formControlName="info_text1" mdInput placeholder="Intro Text 1" [(ngModel)]="promo.info_text1">
+                                </md-input-container>
+                            </div>
+                            <div class="margin-bottom-x2">
+                                <md-select formControlName="text_placement" [(ngModel)]="promo.text_placement" placeholder="Text Placement" class="dialog">
+                                    <md-option *ngFor="let textPlacementOption of textPlacementOptions" [value]="textPlacementOption.value">
+                                        {{ textPlacementOption.viewValue }}
+                                    </md-option>
+                                </md-select>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="margin-bottom-x2">
+                                <md-input-container>
+                                    <input class="w250impt" formControlName="info_text2" [(ngModel)]="promo.info_text2" type="text" mdInput placeholder="Intro Text 2">
+                                </md-input-container>
+                            </div>
+                            <div class="margin-bottom-x2">
+                                <md-select placeholder="Move Pattern" formControlName="text_movement" [(ngModel)]="promo.text_movement" floatPlaceholder="never" class="dialog">
+                                    <md-option *ngFor="let movePattern of movePatterns" [value]="movePattern.value">
+                                        {{ movePattern.viewValue }}
+                                    </md-option>
+                                </md-select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="margin-bottom-mn elem-label">Success Screen Text</div>
+                    <div class="flex margin-bottom-x3">
+                        <div class="editor-width">
+                            <text-editor [elementId]="'editor-success-text'" (onEditorKeyup)="keyupHandlerFunction($event)" [elementValue]="promo.success_text"></text-editor>
+                        </div>
+                    </div>
+                    <button type="button" class="button light-green width-180 margin-right-x2" (click)="successfilePicker.click()" [class.disabled]="isUploadingSuccessScreenPhoto" [disabled]="isUploadingSuccessScreenPhoto">
+                        <span *ngIf="!isUploadingSuccessScreenPhoto">
+                            <i class="fa fa-cloud-upload margin-right"></i>Success Screen
+                        </span>
+                        <span *ngIf="isUploadingSuccessScreenPhoto">
+                            <i class="fa fa-circle-o-notch fa-spin fa-small fa-fw margin-right"></i>Uploading...
+                        </span>
+                    </button>
+                    <strong>{{successImageFileName}}</strong>
+                </div>
+                <div>
+                    <div class="preview-wrapper max-width margin-bottom-x2">
+                        <input type="file" name="background_image" class="hiddenfile" #backgroundImagefilePicker (change)="onImageUpload($event)" />
+                        <input type="file" name="character_image" class="hiddenfile" #characterfilePicker (change)="onImageUpload($event)" />
+                        <input type="file" name="success_image" class="hiddenfile" #successfilePicker (change)="onImageUpload($event)" />
+                        <div class="flex margin-bottom-x2">
+                            <div>
+                                <button type="button" class="button light-green width-180 margin-right-x2" (click)="backgroundImagefilePicker.click()" [class.disabled]="isUploadingPhoto" [disabled]="isUploadingPhoto">
+                                    <span *ngIf="!isUploadingPhoto">
+                                        <i class="fa fa-cloud-upload margin-right"></i>Background Image
+                                    </span>
+                                    <span *ngIf="isUploadingPhoto">
+                                        <i class="fa fa-circle-o-notch fa-spin fa-small fa-fw margin-right"></i>Uploading...
+                                    </span>
+                                </button>
+                                <strong>{{backgroundImageFileName}}</strong>
+                            </div>
+                            <div>
+                                <button type="button" class="button light-green width-180 margin-right-x2" (click)="characterfilePicker.click()" [class.disabled]="isUploadingCharacterPhoto" [disabled]="isUploadingCharacterPhoto">
+                                <span *ngIf="!isUploadingCharacterPhoto">
+                                    <i class="fa fa-cloud-upload margin-right"></i>Character Photo
+                                </span>
+                                <span *ngIf="isUploadingCharacterPhoto">
+                                    <i class="fa fa-circle-o-notch fa-spin fa-small fa-fw margin-right"></i>Uploading...
+                                </span>
+                            </button>
+                                <strong>{{characterImageFileName}}</strong>
+                            </div>
+                        </div>
+                        <div *ngIf="selectedPromoType !== PROMO_TEXT">
+                            <div class="margin-bottom-mn elem-label">Move Pattern</div>
+                            <div class="margin-bottom-x2">
+                                <md-select placeholder="Move Pattern" formControlName="fade_move_pattern" [(ngModel)]="promo.fade_move_pattern" floatPlaceholder="never" class="dialog">
+                                    <md-option *ngFor="let movePattern of movePatterns" [value]="movePattern.value">
+                                        {{ movePattern.viewValue }}
+                                    </md-option>
+                                </md-select>
+                            </div>
+                            <div class="margin-bottom-mn elem-label">Timer</div>
+                            <div class="margin-bottom-x2">
+                                <md-select placeholder="Timer" formControlName="fade_timer" [(ngModel)]="promo.fade_timer" floatPlaceholder="never" class="dialog">
+                                    <md-option *ngFor="let timerOption of timerOptions" [value]="timerOption.value">
+                                        {{ timerOption.viewValue }}
+                                    </md-option>
+                                </md-select>
+                            </div>
+                            <div class="margin-bottom-mn elem-label">Movement Speed</div>
+                            <div class="margin-bottom-x2">
+                                <md-select placeholder="Timer" formControlName="fade_movement_speed" [(ngModel)]="promo.fade_movement_speed" floatPlaceholder="never" class="dialog">
+                                    <md-option *ngFor="let timerOption of timerOptions" [value]="timerOption.value">
+                                        {{ timerOption.viewValue }}
+                                    </md-option>
+                                </md-select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="margin-bottom-mn elem-label">Interface Preview</div>
+                    <div class="margin-bottom-x2">
+                        <div class="promo-preview center-content">
+                            <i class="fa fa-picture-o fa-5x"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </md-dialog-content>
+    <md-dialog-actions class="dialog-actions">
+        <button md-button md-dialog-close>Cancel</button>
+        <div class="margin-right"></div>
+        <div class="flex" *ngIf="dialogMode === 2">
+            <button md-button class="pink">Delete</button>
+            <div class="margin-right"></div>
+            <button md-button class="orange">Duplicate</button>
+            <div class="margin-right"></div>
+            <button md-button (click)="onGeneratePromoPackageClick()" class="blue">Update Promo Package</button>
+        </div>
+        <div class="flex" *ngIf="dialogMode !== 2">
+            <button type="submit" md-button #generatePromoPackage class="blue">Generate Promo Package</button>
+        </div>
+    </md-dialog-actions>
+</form>

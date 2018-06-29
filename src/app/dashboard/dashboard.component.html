@@ -1,0 +1,29 @@
+<div id="root" class="dashboard-wrapper">
+    <div class="home">
+        <div class="home-nav">
+            <div class="center-content profile orientation-vertical">
+                <!-- <div class="profile-bg-circle margin-bottom-x2"></div> -->
+                <div class="margin-bottom-x2" *ngIf="userName">{{userName}}</div>
+                <div class="profile-separator-color"><a (click)="onLogout()"><i class="fa fa-sign-out fa-lg"></i></a></div>
+            </div>
+            <ul>
+                <li *ngFor="let nav of navItems" (click)="onNavItemClick(nav.id)"
+                    [class.selected-item]="selectedNavItem === nav.id">
+                    <div>
+                        <i class="fa {{nav.icon}} fa-lg"></i>
+                        <div class="nav-item-label">{{nav.label}}</div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="grow">
+             <!-- <md-progress-bar
+                mode="indeterminate"
+                color="primary">
+            </md-progress-bar>  -->
+            <div class="home-content">
+                <router-outlet></router-outlet>
+            </div>
+        </div>
+    </div>
+</div>

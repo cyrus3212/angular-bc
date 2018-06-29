@@ -1,0 +1,81 @@
+.separator {
+    margin-bottom: 32px;
+}
+
+.editor-width {
+    width: 400px;
+}
+
+.elem-label {
+    font-weight: bold;
+}
+
+.elem-title {
+    color: #7B7B7B;
+}
+
+.button.width-180 {
+    width: 180px;
+}
+
+.promo-preview {
+    color: #CECECE;
+    width: 424px;
+    height: 283px;
+    background: white;
+    border: 1px solid #EBEBEB;
+}
+
+.preview-wrapper {
+    color: #CECECE;
+    background: white;
+    border: 1px solid #EBEBEB;
+    padding: 24px;
+}
+
+.preview-wrapper.max-width {
+    max-width: 424px;
+}
+
+.mat-select.dialog {
+    width: 250px;
+}
+
+.textarea-height {
+    height: 100px;
+}
+
+
+/**
+ Form Validation Styles
+*/
+
+.message-alert {
+    color: #e24040;
+    font-size: 0.7em;
+    padding: 0.5em;
+}
+
+.disabled {
+    background-color: #dde0df;
+}
+
+.md-select-width-full {
+    width: 100%;
+}
+
+.width-x1 {
+    width: 25%;
+}
+
+.width-x2 {
+    width: 50%;
+}
+
+.width-x3 {
+    width: 75%;
+}
+
+.width-x4 {
+    width: 100%;
+}

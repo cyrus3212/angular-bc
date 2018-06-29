@@ -1,0 +1,127 @@
+<div>
+    <!-- class="debug-border" -->
+    <div class="content title margin-bottom">Dashboard</div>
+    <div class="content sub-title margin-bottom-x2">Summary</div>
+    <div class="separator"></div>
+    <div class="dashboard-summary theme-background-white center-content margin-bottom-x5">
+        <div class="center-content dashboard-summary item">
+            <div class="item-overall">Php 100,000.00</div>
+            <div class="summary-sub-title">Overall redemptions</div>
+        </div>
+        <div class="center-content dashboard-summary item">
+            <div class="item-active">20</div>
+            <div class="summary-sub-title">Active</div>
+        </div>
+        <div class="center-content dashboard-summary item">
+            <div class="item-scheduled">10</div>
+            <div class="summary-sub-title">Scheduled</div>
+        </div>
+        <div class="center-content dashboard-summary item">
+            <div class="item-cancelled">5</div>
+            <div class="summary-sub-title">Cancelled</div>
+        </div>
+        <div class="center-content dashboard-summary item">
+            <div class="item-stopped">10</div>
+            <div class="summary-sub-title">Stopped</div>
+        </div>
+    </div>
+    <div class="margin-bottom-x5 flex center-content">
+        <div class="grow"></div>
+        <div class="margin-right-x2">Search</div>
+        <div>
+            <input class="textfield searchfield" type="search" placeholder="Search keyword..." />
+        </div>
+    </div>
+    <div class="table">
+        <div class="table-header flex center-content">
+            <div (click)="onTogglePromoAssignmentNameSorting()" class="table-header-promo large left-align center-content">PROMO ASSIGNMENT NAME<i [class.fa-sort-alpha-desc]="!isPromoAssignmentSortASC" [class.fa-sort-alpha-asc]="isPromoAssignmentSortASC" class="fa fa-sm"></i></div>
+            <div (click)="onStartEndDateFilterClick($event)" class="table-header-promo center-content">START - END DATE<i class="fa fa-filter fa-sm"></i></div>
+             <div class="promo-separator"></div> 
+            <div (click)="onToggleCreatedDateSorting()" class="table-header-promo center-content">CREATED<i [class.fa-sort-amount-desc]="!isCreatedDateSortASC" [class.fa-sort-amount-asc]="isCreatedDateSortASC" class="fa fa-sm"></i></div>
+            <div (click)="onTotalFilterClick($event)" class="table-header-promo center-content">TOTAL<i class="fa fa-filter fa-sm"></i></div>
+            <div (click)="onStatusFilterClick($event)" class="table-header-promo center-content">STATUS<i class="fa fa-filter fa-sm"></i></div>
+        </div>
+    </div>
+    <div class="promotions">
+        <!-- dummy list -->
+        <div class="theme-background-white center-content promo-wrapper" *ngFor="let i of Arr(promoCount).fill(1)">
+            <div class="promo wrapper large item">
+                <div class="promo-item bold title">Additional P50 Credit</div>
+                <div class="promo-item sub-title">purchase and win additional...</div>
+            </div>
+            <div class="promo wrapper item center-content">
+                <div>Start <span class="promo-item bold date-start">JUNE 01, 2017</span></div>
+                <div>End <span class="promo-item bold date-end">JUNE 30, 2017</span></div>
+            </div>
+            <div>
+                <div class="promo-separator"></div>
+            </div>
+            <div class="promo wrapper item center-content">
+                <div class="promo-last-update title">Today at 4:24 AM</div>
+                <div class="promo-last-update sub-title">Last updated</div>
+            </div>
+            <div class="promo wrapper item center-content">
+                <div class="promo-redeemed title">PHP 5,000</div>
+                <div class="promo-redeemed sub-title">TOTAL REDEMPTIONS</div>
+            </div>
+            <div class="promo wrapper item center-content">
+                <input class="button orange" type="submit" value="ACTIVE" />
+            </div>
+        </div>
+        <!-- end dummy list -->
+    </div>
+    <div class="gravity-right margin-top-x5 margin-bottom-x3">
+        <md-paginator class="no-bg" [length]="100"
+              [pageSize]="10"
+              [pageSizeOptions]="[5, 10, 25, 100]">
+        </md-paginator>
+    </div>
+</div>
+<!-- popup start date - end date filter -->
+<div #popUpStartEndDateFilter [hidden]="!showStartEndDateFIlterTooltip" class="tooltip tooltip-wrapper ds">
+    <div class="tooltip bold margin-bottom">Start Date</div>
+    <div class="padding-sides-x2 margin-bottom-x2">
+        <input class="tooltip" [mdDatepicker]="startDatePicker" disabled placeholder="MM/DD/YYYY">
+        <button [mdDatepickerToggle]="startDatePicker"></button>
+        <md-datepicker #startDatePicker></md-datepicker>
+    </div>
+    <div class="tooltip bold margin-bottom">End Date</div>
+    <div class="padding-sides-x2 margin-bottom-x3">
+        <input class="tooltip" [mdDatepicker]="endDatePicker" disabled placeholder="MM/DD/YYYY">
+        <button [mdDatepickerToggle]="endDatePicker"></button>
+        <md-datepicker #endDatePicker></md-datepicker>
+    </div>
+    <div class="gravity-right">
+        <button md-button (click)="showStartEndDateFIlterTooltip = !showStartEndDateFIlterTooltip">Apply</button>
+    </div>
+</div>
+<!-- total filter -->
+<div #popUpTotalFilter [hidden]="!showTotalTooltip" class="tooltip tooltip-wrapper ds">
+    <div class="tooltip bold margin-bottom">Comparison</div>
+    <div class="margin-bottom-x2">
+        <md-select placeholder="Comparison" floatPlaceholder="never" class="match-parent">
+            <md-option *ngFor="let comparisonType of comparisonTypes" [value]="comparisonType.value">
+                {{ comparisonType.viewValue }}
+            </md-option>
+        </md-select>
+    </div>
+    <div class="tooltip bold margin-bottom">Amount</div>
+    <div class="margin-bottom-x2"><input class="textfield dialogField" type="text" placeholder="0.00" /> Php</div>
+    <div class="gravity-right">
+        <button md-button (click)="showTotalTooltip = !showTotalTooltip">Apply</button>
+    </div>
+</div>
+<!-- status filter -->
+<div #popUpStatusFilter [hidden]="!showStatusTooltip" class="tooltip tooltip-wrapper ds">
+    <div class="margin-bottom-x2">
+        <div><md-checkbox>ACTIVE</md-checkbox></div>
+        <div><md-checkbox>SCHEDULED</md-checkbox></div>
+        <div><md-checkbox>CANCELLED</md-checkbox></div>
+        <div><md-checkbox>STOPPED</md-checkbox></div>
+        <div><md-checkbox>PAUSED</md-checkbox></div>
+        <div><md-checkbox>ENDED</md-checkbox></div>
+    </div>
+    <div class="center-content">
+        <button md-button (click)="showStatusTooltip = !showStatusTooltip">Apply</button>
+    </div>
+</div>

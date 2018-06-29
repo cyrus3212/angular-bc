@@ -1,0 +1,84 @@
+<div>
+    <!-- class="debug-border" -->
+    <div class="content title margin-bottom">Promotion Management</div>
+    <div class="content sub-title margin-bottom-x2">Create, edit and delete promotions</div>
+    <div class="separator"></div>
+    <div class="margin-bottom-x5 flex center-content">
+        <div class="grow">
+            <input class="button add ds" type="submit" value="NEW PROMO" (click)="onCreateNewPromo()" />
+        </div>
+        <div class="margin-right-x2">Search</div>
+        <div>
+            <input class="textfield searchfield" type="search" placeholder="Search keyword..." />
+        </div>
+    </div>
+    <div class="flex margin-bottom-x4">
+        <div class="table-item-action">
+            <a class="flex">
+                <div><i class="fa fa-trash fa-lg"></i></div>
+                <div class="padding-sides">Delete</div>
+            </a>
+        </div>
+        <div class="grow">
+            <div class="flex right-content">
+                <div class="margin-right-x2">
+                    <md-select placeholder="Status" floatPlaceholder="never" class="match-parent" [(ngModel)]="statusFilter" (change)="onStatusFilterChange($event)">
+                        <md-option *ngFor="let statusType of statusTypes" [value]="statusType.value">
+                            {{ statusType.viewValue }}
+                        </md-option>
+                    </md-select>
+                </div>
+                <div>
+                    <md-select placeholder="Promo Type" floatPlaceholder="never" class="match-parent" [(ngModel)]="promoTypeFilter" (change)="onPromoTypeFilterChange($event)">
+                        <md-option *ngFor="let promoType of promoTypes" [value]="promoType.value">
+                            {{ promoType.viewValue }}
+                        </md-option>
+                    </md-select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div>
+        <div class="table">
+            <div class="table-header flex center-content">
+                <div class="margin-right-x4"><input type="checkbox" (click)="onSelectAll()" /></div>
+                <div class="table-wrap flex">
+                    <div class="table-header-promo" (click)="onSortTableHeader('created_at.date')">DATE CREATED<i [class.fa-sort]="isDateSortedAsc == 0" [class.fa-sort-amount-desc]="isDateSortedAsc == 1" [class.fa-sort-amount-asc]="isDateSortedAsc == 2" class="fa fa-sm"></i></div>
+                    <div class="table-header-promo" (click)="onSortTableHeader('promo_id')">PROMO ID<i [class.fa-sort]="isPromoIdSortedAsc == 0" [class.fa-sort-amount-desc]="isPromoIdSortedAsc == 1" [class.fa-sort-amount-asc]="isPromoIdSortedAsc == 2" class="fa fa-sm"></i></div>
+                    <div class="table-header-promo" (click)="onSortTableHeader('title')">PROMO NAME<i [class.fa-sort]="isTitleSortedAsc == 0" [class.fa-sort-amount-desc]="isTitleSortedAsc == 1" [class.fa-sort-amount-asc]="isTitleSortedAsc == 2" class="fa fa-sm"></i></div>
+                    <div class="table-header-promo center-content" (click)="onSortTableHeader('type')">PROMO TYPE<i [class.fa-sort]="isTypeSortedAsc == 0" [class.fa-sort-amount-desc]="isTypeSortedAsc == 1" [class.fa-sort-amount-asc]="isTypeSortedAsc == 2" class="fa fa-sm"></i></div>
+                    <div class="table-header-promo center-content">ACTION</div>
+                </div>
+            </div>
+            <!-- table item start -->
+            <div *ngIf="promoList.length > 0">
+                <!-- let i of Arr(promoCount).fill(1); -->
+                <div *ngFor="let promo of promoList; let x = index;" 
+                    [class.alt]="x % 2 !== 0"
+                    class="table-item flex center-content">
+                    <div class=" margin-right-x4"><input type="checkbox" [checked]="selectAll" /></div>
+                    <div class="table-wrap">
+                        <div class="item-label ellipsis">{{getFormattedDate(promo.created_at.date)}}</div>
+                        <div class="item-label ellipsis">{{promo.promo_id}}</div>
+                        <div class="item-label ellipsis bold">{{getPromoNameById(promo)}}</div>
+                        <div class="item-label ellipsis center-content">{{getPromoTypeById(promo.type)}}</div>
+                        <div class="item-label ellipsis table-item-action center-content">
+                            <a><i class="fa fa-copy fa-lg"></i></a>
+                            <a (click)="onEditPromotion(x)"><i class="fa fa-edit fa-lg"></i></a>
+                            <a><i class="fa fa-trash fa-lg"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- table item end -->
+        </div>
+    </div>
+    <div class="gravity-right margin-top-x5">
+        <md-paginator class="no-bg" 
+            (page)="onPageChange($event)"
+            [length]="total"
+            [pageSize]="pageSize"
+            [pageSizeOptions]="[10, 25, 50]">
+        </md-paginator>
+    </div>
+</div>

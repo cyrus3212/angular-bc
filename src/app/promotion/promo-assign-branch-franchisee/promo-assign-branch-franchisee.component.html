@@ -1,0 +1,47 @@
+<!-- <md-toolbar> -->
+    <h2 md-dialog-title>{{title}}</h2>
+<!-- </md-toolbar> -->
+<md-dialog-content>
+    <div class="branch-wrapper">
+      <div class="margin-bottom-x5 flex center-content">
+          <div class="grow"></div>
+          <div class="margin-right-x2">Search</div>
+          <div>
+              <input class="textfield searchfield" type="search" placeholder="Search keyword..." />
+          </div>
+      </div>
+      <!-- table start -->
+      <div class="table">
+          <div class="table-header flex center-content">
+              <div class="margin-right-x4"><input type="checkbox" (click)="onSelectAll()" /></div>
+              <div class="table-wrap flex">
+                  <div class="grow table-header-promo">BRANCH NAME<i [class.fa-sort-amount-desc]="!isCreatedDateSortASC" [class.fa-sort-amount-asc]="isCreatedDateSortASC" class="fa fa-sm"></i></div>
+                  <div class="grow table-header-promo">ADDRESS<i [class.fa-sort-amount-desc]="!isCreatedDateSortASC" [class.fa-sort-amount-asc]="isCreatedDateSortASC" class="fa fa-sm"></i></div>
+              </div>
+          </div>
+          <!-- table item start -->
+          <div *ngFor="let i of Arr(branchCount).fill(1); let x = index;" 
+              [class.alt]="x % 2 !== 0"
+              class="table-item flex center-content">
+              <div class="margin-right-x4"><input type="checkbox" [checked]="selectAll" /></div>
+              <div class="table-wrap">
+                  <div class="grow item-label">Branch Name Sample {{(x + 1)}}</div>
+                  <div class="grow item-label">FLC Building Hernan Cortez St., Mandaue City</div>
+              </div>
+          </div>
+          <!-- table item end -->
+      </div>
+      <!-- table end -->
+      <div class="gravity-right margin-top-x5 margin-bottom-x3">
+          <md-paginator class="no-bg" [length]="100" 
+            [pageSize]="10" 
+            [pageSizeOptions]="[5, 10, 25, 100]">
+        </md-paginator>
+    </div>
+    </div>
+</md-dialog-content>
+<md-dialog-actions class="dialog-actions">
+    <button md-button md-dialog-close>Cancel</button>
+    <div class="margin-right"></div>
+    <button md-button (click)="onGeneratePromoPackageClick()" class="blue">Select</button>  
+</md-dialog-actions>

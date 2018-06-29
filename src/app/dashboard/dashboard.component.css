@@ -1,0 +1,168 @@
+body {
+    font-family: 'Varela Round', sans-serif;
+    font-size: 1em;
+    color: #B1B1B1;
+    margin: 0;
+}
+
+.dashboard-wrapper {
+    min-height: 100vh;
+}
+
+.home {
+    display: -webkit-flex;
+    display: flex;
+    height: 100%;
+    background-color: lightgrey;
+}
+
+.home-nav {
+    background-color: #4F5F6F;
+    width: 250px;
+}
+
+.home-content {
+    background-color: #EFF2F6;
+    flex-grow: 1;
+    /* top left bottom right */
+    padding: 48px 72px 24px 72px;
+}
+
+.separator {
+    height: 2px; 
+    background-color: #DAE1E8; 
+    margin-bottom: 48px;
+}
+
+.theme-background-white {
+    background-color: #FFFFFF;
+    box-shadow: 0px 0px 5px #CDD5DC;
+}
+
+.dashboard-summary {
+    height: 150px;
+    display: flex;
+    padding-left: 16px;
+    padding-right: 16px;
+}
+
+.dashboard-summary.item {
+    flex-grow: 1; flex-direction: column;
+}
+
+.summary-sub-title {
+    font-size: 1.25em; color: #7D8D9F;   
+}
+
+.item-overall {
+    font-size: 2em; color: #4BCF99;
+}
+.item-active {
+    font-size: 2em; color: #59C1E5;
+}
+.item-scheduled {
+    font-size: 2em; color: #FD974B;
+}
+.item-cancelled {
+    font-size: 2em; color: #4F5F6F;
+}
+.item-stopped {
+    font-size: 2em; color: #FB4B79;
+}
+
+.promo-wrapper {
+    min-height: 100px; 
+    padding-left: 48px; 
+    padding-right: 48px;
+    margin-bottom: 8px;
+}
+
+.header-wrapper {
+    min-height: 50px; 
+    padding-left: 48px; 
+    padding-right: 48px;
+    margin-bottom: 8px
+}
+
+.promo {
+    height: 100px;
+    display: flex;
+    padding-left: 16px;
+    padding-right: 16px;
+}
+
+.promo.wrapper {
+    display: -webkit-flex;
+    display: flex;
+    flex: 1;
+    -webkit-justify-content: center;
+    justify-content: center;
+}
+
+.promo.wrapper.large {
+    flex: 1.5;
+}
+
+.promo-separator {
+    width: 2px;
+    height: 24px;
+    background-color: #DBE1E7;
+}
+
+.promo.wrapper.right {
+    align-items: flex-end;
+}
+
+.promo.item {
+    flex-grow: 1; flex-direction: column;
+}
+
+.table-header {
+    padding-left: 48px;
+    padding-right: 48px;
+}
+
+.table-header-promo {
+    flex: 1; 
+    height: 50px;
+    color: #374655;
+    font-size: 14px;
+}
+
+.table-header-promo.large {
+    flex: 1.5;
+}
+
+.table-header-promo i {
+    margin-left: 8px;
+}
+
+.table-header-promo:hover {
+    cursor: pointer;
+}
+
+.promo-last-update.title {
+    font-size: 12px;;
+    color: #4F5F6F;
+}
+
+.promo-last-update.sub-title {
+    font-size: 11px;
+    color: #9EB0C3;
+}
+
+.promo-redeemed.title {
+    font-size: 18px;
+    color: #59C1E5;
+}
+
+.promo-redeemed.sub-title {
+    font-size: 12px;
+    color: #4C5F70;
+}
+
+.button.orange, .button.gray {
+    min-width: 100px;
+    padding-left: 24px;
+    padding-right: 24px;
+}
